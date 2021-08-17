@@ -5,10 +5,10 @@ const Header = props => <h1>{props.course}</h1>;
 const Part = ({part}) => <p>{part.name} {part.exercises}</p>;
 
 const Content = ({parts}) =>
-    <>
+    <div>
         {parts.map(part => <Part part={part}/>)}
         <Total parts={parts}/>
-    </>
+    </div>
 
 const Total = ({parts}) => <strong>total of {parts.map(p => p.exercises).reduce((a, b) => a + b)} exercises</strong>;
 
