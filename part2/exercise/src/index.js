@@ -7,10 +7,10 @@ const Part = ({part}) => <p>{part.name} {part.exercises}</p>;
 const Content = ({parts}) =>
     <>
         {parts.map(part => <Part part={part}/>)}
-        <Total parts={parts} />
+        <Total parts={parts}/>
     </>
 
-const Total = ({parts}) => <strong>total of {parts.map(p => p.exercises).reduce((a, b) => a+b)} exercises</strong>;
+const Total = ({parts}) => <strong>total of {parts.map(p => p.exercises).reduce((a, b) => a + b)} exercises</strong>;
 
 const App = () => {
     const courses = [
@@ -69,8 +69,8 @@ const App = () => {
 const Course = ({course}) => {
     return (
         <div>
-            <Header course={course.name} />
-            <Content parts={course.parts} />
+            <Header course={course.name}/>
+            <Content parts={course.parts}/>
         </div>
     )
 }
