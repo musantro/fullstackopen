@@ -1,16 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-const Header = props => <h1>{props.course}</h1>;
-const Part = ({part}) => <p>{part.name} {part.exercises}</p>;
-
-const Content = ({parts}) =>
-    <div>
-        {parts.map(part => <Part part={part}/>)}
-        <Total parts={parts}/>
-    </div>
-
-const Total = ({parts}) => <strong>total of {parts.map(p => p.exercises).reduce((a, b) => a + b)} exercises</strong>;
+import {Course} from "./Course";
 
 const App = () => {
     const courses = [
@@ -62,15 +52,6 @@ const App = () => {
     return (
         <div>
             {courses.map(course => <Course course={course}/>)}
-        </div>
-    )
-}
-
-const Course = ({course}) => {
-    return (
-        <div>
-            <Header course={course.name}/>
-            <Content parts={course.parts}/>
         </div>
     )
 }
