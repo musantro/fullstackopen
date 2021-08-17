@@ -9,6 +9,15 @@ const Button = ({onClick, text}) => (
 
 const Statistics = ({bad, good, neutral}) => {
     const all = good + neutral + bad
+
+    if (all === 0) {
+        return (
+            <div>
+                No feedback given
+            </div>
+        )
+    }
+
     const average = (good - bad) / all;
     const positiveRatio = good / all * 100;
 
