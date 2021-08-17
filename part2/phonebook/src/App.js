@@ -2,16 +2,24 @@ import React, {useState} from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    {name: 'Arto Hellas'}
+    {name: 'Arto Hellas', id: 1}
   ])
   const [newName, setNewName] = useState('')
   const addName = (event) => {
     event.preventDefault()
-    const nameObject = {
-      name: newName
+    const names = new Set(persons.map(p => p.name))
+
+    if (names.has(newName)) {
+      window.alert(`${newName} has already been saved.`)
     }
-    setPersons(persons.concat(nameObject))
-    setNewName('')
+    else {
+      const nameObject = {
+        name: newName,
+        id: persons.length + 1
+      }
+      setPersons(persons.concat(nameObject))
+      setNewName('')
+    }
   }
 
   const handleNameChange = (event) => {
@@ -30,7 +38,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(p => <div>{p.name}</div>)}
+      {persons.map(p => <div key={p.id}>{p.name}</div>)}
     </div>
   )
 }
