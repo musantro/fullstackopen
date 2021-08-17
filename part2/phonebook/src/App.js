@@ -1,5 +1,18 @@
 import React, {useState} from 'react'
 
+const Filter = props => <div>filter shown with <input value={props.value} onChange={props.onChange}/></div>;
+
+const PersonForm = props =>
+  <form onSubmit={props.onSubmit}>
+    <div>name: <input value={props.value} onChange={props.onChange}/></div>
+    <div>number: <input value={props.value1} onChange={props.onChange1}/></div>
+    <div>
+      <button type="submit">add</button>
+    </div>
+  </form>;
+
+const Persons = props => <>{props.personsToShow.map(p => <div key={p.id}>{p.name} {p.number}</div>)}</>;
+
 const App = () => {
   const [persons, setPersons] = useState([
     {name: 'Arto Hellas', number: '911111111', id: 1}
@@ -14,8 +27,7 @@ const App = () => {
 
     if (names.has(newName)) {
       window.alert(`${newName} has already been saved.`)
-    }
-    else {
+    } else {
       const nameObject = {
         name: newName,
         number: newNumber,
@@ -42,17 +54,12 @@ const App = () => {
   return (
     <div>
       <h2>PhoneBook</h2>
-      <div>filter shown with <input value={queryName} onChange={handleQueryChange}/></div>
-      <h2>add a new</h2>
-      <form onSubmit={addName}>
-        <div>name: <input value={newName} onChange={handleNameChange}/></div>
-        <div>number:  <input value={newNumber} onChange={handlePhoneChange}/></div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {personsToShow.map(p => <div key={p.id}>{p.name} {p.number}</div>)}
+      <Filter value={queryName} onChange={handleQueryChange}/>
+      <h3>add a new</h3>
+      <PersonForm onSubmit={addName} value={newName} onChange={handleNameChange} value1={newNumber}
+                  onChange1={handlePhoneChange}/>
+      <h3>Numbers</h3>
+      <Persons personsToShow={personsToShow}/>
     </div>
   )
 }
