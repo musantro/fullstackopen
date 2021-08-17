@@ -12,7 +12,7 @@ const App = (props) => {
     const [selected, setSelected] = useState(0)
     const [points, setPoints] = useState(anecdotes.map(() => 0))
 
-    const getNumber = () => Math.round(Math.random() * props.anecdotes.length);
+    const getNumber = () => Math.floor(Math.random() * props.anecdotes.length);
 
     const handleAnecdoteClick = () => setSelected(getNumber())
     const handleVoteClick = (selected) => () => {
