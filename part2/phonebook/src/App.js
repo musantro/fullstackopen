@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import personService from "./services/persons";
+import {Notification} from "./Notification";
 
 const Filter = props => <div>filter shown with <input value={props.value} onChange={props.onChange}/></div>;
 
@@ -17,6 +18,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [queryName, setQueryName] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+
 
   useEffect(() => {
     personService.getAll().then(initialPersons => setPersons(initialPersons))
@@ -61,6 +64,12 @@ const App = () => {
       personService
         .create(nameObject)
         .then(returnedPerson => {
+          setSuccessMessage(
+            `Added '${returnedPerson.name}'`
+          )
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
@@ -83,6 +92,7 @@ const App = () => {
   return (
     <div>
       <h2>PhoneBook</h2>
+      <Notification message={successMessage} />
       <Filter value={queryName} onChange={handleQueryChange}/>
       <h3>add a new</h3>
       <PersonForm onSubmit={addName} value={newName} onChange={handleNameChange} value1={newNumber}
