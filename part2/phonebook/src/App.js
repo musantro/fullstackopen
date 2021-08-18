@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from "axios";
 
 const Filter = props => <div>filter shown with <input value={props.value} onChange={props.onChange}/></div>;
 
@@ -14,12 +15,18 @@ const PersonForm = props =>
 const Persons = props => <>{props.personsToShow.map(p => <div key={p.id}>{p.name} {p.number}</div>)}</>;
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    {name: 'Arto Hellas', number: '911111111', id: 1}
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [queryName, setQueryName] = useState('')
+
+  useEffect(() =>{
+    const promise = axios.get('http://localhost:3001/persons');
+    const eventHandler = response => {
+      setPersons(response.data)
+    }
+    promise.then(eventHandler)
+  }, [])
 
   const addName = (event) => {
     event.preventDefault()
