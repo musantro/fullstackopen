@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import axios from "axios";
+import personService from "./services/persons";
 
 const Filter = props => <div>filter shown with <input value={props.value} onChange={props.onChange}/></div>;
 
@@ -20,12 +20,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [queryName, setQueryName] = useState('')
 
-  useEffect(() =>{
-    const promise = axios.get('http://localhost:3001/persons');
-    const eventHandler = response => {
-      setPersons(response.data)
-    }
-    promise.then(eventHandler)
+  useEffect(() => {
+    personService.getAll().then(initialPersons => setPersons(initialPersons))
   }, [])
 
   const addName = (event) => {
@@ -40,9 +36,13 @@ const App = () => {
         number: newNumber,
         id: persons.length + 1,
       }
-      setPersons(persons.concat(nameObject))
-      setNewName('')
-      setNewNumber('')
+      personService
+        .create(nameObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
     }
   }
 
