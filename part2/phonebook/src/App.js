@@ -12,8 +12,6 @@ const PersonForm = props =>
     </div>
   </form>;
 
-const Persons = props => <>{props.personsToShow.map(p => <div key={p.id}>{p.name} {p.number}</div>)}</>;
-
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
@@ -23,6 +21,16 @@ const App = () => {
   useEffect(() => {
     personService.getAll().then(initialPersons => setPersons(initialPersons))
   }, [])
+
+  const deleteHandler = (person) => () => {
+    if (window.confirm(`Delete ${person.name} ?`)){
+      personService
+        .deletePerson(person.id)
+        .then(r => {
+          setPersons(persons.filter(p => p.id !== person.id))
+        })
+    }
+  };
 
   const addName = (event) => {
     event.preventDefault()
@@ -34,7 +42,6 @@ const App = () => {
       const nameObject = {
         name: newName,
         number: newNumber,
-        id: persons.length + 1,
       }
       personService
         .create(nameObject)
@@ -66,7 +73,13 @@ const App = () => {
       <PersonForm onSubmit={addName} value={newName} onChange={handleNameChange} value1={newNumber}
                   onChange1={handlePhoneChange}/>
       <h3>Numbers</h3>
-      <Persons personsToShow={personsToShow}/>
+      <div>
+        {personsToShow.map(p =>
+          <div key={p.id}>
+            {p.name} {p.number}
+            <button onClick={deleteHandler(p)}>delete</button>
+          </div>)}
+      </div>
     </div>
   )
 }

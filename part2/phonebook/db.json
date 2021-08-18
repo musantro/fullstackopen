@@ -1,16 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
       "name": "Dan Abramov",
       "number": "12-43-234345",
       "id": 3
@@ -24,6 +14,11 @@
       "name": "Antonio Rodrigues",
       "number": "020-30949024",
       "id": 5
+    },
+    {
+      "name": "Conchelas Lobatinho",
+      "number": "429823 492834",
+      "id": 6
     }
   ]
 }
