@@ -19,6 +19,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [queryName, setQueryName] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
 
   useEffect(() => {
@@ -31,7 +32,15 @@ const App = () => {
         .deletePerson(person.id)
         .then(r => {
           setPersons(persons.filter(p => p.id !== person.id))
-        })
+        }).catch(error => {
+        setErrorMessage(
+          `the person ${person.name} was already deleted from server`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+        setPersons(persons.filter(p => p.name !== person.name))
+      })
     }
   };
 
@@ -50,9 +59,12 @@ const App = () => {
             setPersons(persons.map(p => p.id !== changedPerson.id ? p : returnedPerson))
           })
           .catch(error => {
-            alert(
+            setErrorMessage(
               `the person ${person.name} was already deleted from server`
             )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
             setPersons(persons.filter(p => p.name !== changedPerson.name))
           })
       }
@@ -92,7 +104,8 @@ const App = () => {
   return (
     <div>
       <h2>PhoneBook</h2>
-      <Notification message={successMessage} />
+      <Notification message={successMessage} messageType='success'/>
+      <Notification message={errorMessage} messageType='error'/>
       <Filter value={queryName} onChange={handleQueryChange}/>
       <h3>add a new</h3>
       <PersonForm onSubmit={addName} value={newName} onChange={handleNameChange} value1={newNumber}
