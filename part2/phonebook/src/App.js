@@ -37,7 +37,22 @@ const App = () => {
     const names = new Set(persons.map(p => p.name))
 
     if (names.has(newName)) {
-      window.alert(`${newName} has already been saved.`)
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const person = persons.find(p => p.name === newName)
+        const changedPerson = {...person, number: newNumber}
+
+        personService
+          .update(changedPerson.id, changedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(p => p.id !== changedPerson.id ? p : returnedPerson))
+          })
+          .catch(error => {
+            alert(
+              `the person ${person.name} was already deleted from server`
+            )
+            setPersons(persons.filter(p => p.name !== changedPerson.name))
+          })
+      }
     } else {
       const nameObject = {
         name: newName,
